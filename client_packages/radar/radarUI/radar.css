@@ -1,0 +1,26 @@
+.container {
+    margin: auto;
+    background-color: #6a788c;
+    height: auto;
+    width: auto;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    text-align: center;
+}
+
+.header {
+    text-align: center;
+    background-color: #7b2646;
+    color: white;
+}
+
+button {
+    border-radius: 30px;
+}
+
+h2 {
+    display: inline;
+}
+
+p {
+    display: inline;
+}
