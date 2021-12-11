@@ -3,6 +3,8 @@ let calcDistanceBetweenTwoVectors = (pos1, pos2) => {
     return Math.sqrt(newPos.x * newPos.x + newPos.y * newPos.y + newPos.z * newPos.z);
 };
 
+
+
 // Stock commands
 
 mp.events.addCommand('hp', (player) => {
@@ -40,7 +42,6 @@ mp.events.addCommand('radar', (player) => {
 });
 
 mp.events.addCommand('removeradar', (player) => {
-    player.radar;
 
     // Gets player position to place object directly infront
     const distance = 1.45;
@@ -74,7 +75,7 @@ mp.events.addCommand('radaron', (player) => {
     } else {
         player.outputChatBox('There is no radar here to turn on');
     }
-    vehList = [];
+    player.radar.vehList = [];
 });
 
 mp.events.addCommand('checkradar', (player) => {
@@ -90,7 +91,7 @@ mp.events.addCommand('checkradar', (player) => {
     // Creates collision sphere to activate radar
     if (player.radar) {
         if (calcDistanceBetweenTwoVectors(player.radar.position, player.position) <= 5) {
-            vehList.forEach((veh) => {
+            player.radar.vehList.forEach((veh) => {
                 player.outputChatBox(`${veh}`);
             });
         } else {

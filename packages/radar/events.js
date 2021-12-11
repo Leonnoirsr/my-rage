@@ -12,10 +12,14 @@ mp.events.add('playerEnterColshape', async(player, radarCol) => {
         if (player.vehicle) {
             let vModel = await player.callProc('GetVehicleNameByModel');
             let vSpeed = await player.callProc('GetVehicleSpeed');
-            vehList.push(`A ${vModel} passed the radar, going ${vSpeed} MPH`);
+            player.radar.vehList.push(`A ${vModel} passed the radar, going ${vSpeed} MPH`);
         }
     } catch (e) {
         console.error('Error: ' + e);
     }
 });
-mp.events.add('PlayerQuit')
+mp.events.add('playerQuit', (player) => {
+
+    player.radar.destroy();
+    console.log(`${player.name} has left the server and took the radar with them`);
+});
