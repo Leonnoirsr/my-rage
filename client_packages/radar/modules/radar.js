@@ -1,21 +1,14 @@
-// mp.gui.chat.push('Coming from radar JS file')
+mp.gui.chat.push('Coming from radar JS file')
 
 const localplayer = mp.players.local;
 
-mp.events.addProc('GetVehicleNameByModel', () => {
-	let vehicle = localplayer.vehicle;
-	if (vehicle) return mp.game.vehicle.getDisplayNameFromVehicleModel(vehicle.model);
-	else return null;
-});
+mp.events.add('GetVehicleData', () => {
+    let vehicle = localplayer.vehicle;
+    if (vehicle) {
+        let model = mp.game.vehicle.getDisplayNameFromVehicleModel(vehicle.model)
+        let speed = Math.round(vehicle.getSpeed() * 2.236936);
+        mp.events.callRemote('addVehicleData', model, speed);
+        mp.gui.chat.push('Some shit happened on the client side');
+    }
 
-mp.events.addProc('GetVehicleSpeed', () => {
-	let vehicle = localplayer.vehicle;
-	function getSpeed() {
-		let speed = vehicle.getSpeed();
-		speed = Math.round(speed* 2.236936); 
-		return speed;
-	}
-
-	if (vehicle) return getSpeed();
-	else return null;
 });

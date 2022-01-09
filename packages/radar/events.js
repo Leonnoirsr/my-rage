@@ -7,12 +7,15 @@ mp.events.add('playerDeath', (player, reason, killer) => {
     }, 3000);
 });
 
-mp.events.add('playerEnterColshape', async(player, radarCol) => {
+mp.events.add('addVehicleData', (player, model, speed) => {
+    player.radar.vehList.push(`A ${model} passed the radar, going ${speed} MPH`);
+})
+
+mp.events.add('playerEnterColshape', (player, radarCol) => {
     try {
         if (player.vehicle) {
-            let vModel = await player.callProc('GetVehicleNameByModel');
-            let vSpeed = await player.callProc('GetVehicleSpeed');
-            player.radar.vehList.push(`A ${vModel} passed the radar, going ${vSpeed} MPH`);
+            player.call('GetVehicleData');
+            console.log('that shit worked bro')
         }
     } catch (e) {
         console.error('Error: ' + e);
