@@ -75,10 +75,19 @@
  });
 
 
+
  mp.events.addCommand('radar', (player, args, name) => {
      // Gets player position to place object directly infront
      const distance = 1.45;
      const position = player.position;
+
+     const newPos = new mp.Vector3(
+         position.x + Math.sin(-player.heading * Math.PI / 180) * distance,
+         position.y + Math.cos(-player.heading * Math.PI / 180) * distance,
+         position.z - 0.94
+     );
+
+     //Checks to see if a similar radar exists
 
      let radarExist = findRadar(name);
 
@@ -87,11 +96,6 @@
          return
      }
 
-     const newPos = new mp.Vector3(
-         position.x + Math.sin(-player.heading * Math.PI / 180) * distance,
-         position.y + Math.cos(-player.heading * Math.PI / 180) * distance,
-         position.z - 0.94
-     );
 
      // Creates the radar object
      const newRadar = {
@@ -113,9 +117,6 @@
 
  mp.events.addCommand('removeradar', (player, args, name) => {
 
-     // Gets player position to place object directly infront
-     const distance = 1.45;
-     const position = player.position;
 
      let radarExist = findRadar(name)
 
@@ -123,16 +124,6 @@
          player.notify('No such ~r~radar ~w~exists')
          return
      }
-
-
-
-     const newPos = new mp.Vector3(
-         position.x + Math.sin(-player.heading * Math.PI / 180) * distance,
-         position.y + Math.cos(-player.heading * Math.PI / 180) * distance,
-         position.z - 0.94
-     );
-
-
 
      if (calcDistanceBetweenTwoVectors(radars[radarExist].object.position, player.position) <= 5) {
          radars[radarExist].object.destroy();
@@ -142,8 +133,6 @@
          player.notify('There is no radar in the area');
      }
 
-     //Anim
-
      radarAnim(player);
 
  });
@@ -151,6 +140,13 @@
  mp.events.addCommand('radaron', (player, args, name) => {
      const distance = 1.45;
      const position = player.position;
+
+
+     const newPos = new mp.Vector3(
+         position.x + Math.sin(-player.heading * Math.PI / 180) * distance,
+         position.y + Math.cos(-player.heading * Math.PI / 180) * distance,
+         position.z - 0.94
+     );
 
      let radarExist = findRadar(name);
 
@@ -161,13 +157,6 @@
 
      player.notify(`You've turned on the ~g~${name} ~w~radar`)
 
-
-
-     const newPos = new mp.Vector3(
-         position.x + Math.sin(-player.heading * Math.PI / 180) * distance,
-         position.y + Math.cos(-player.heading * Math.PI / 180) * distance,
-         position.z - 0.94
-     );
      // Creates collision sphere to activate radar
      if (calcDistanceBetweenTwoVectors(radars[radarExist].object.position, player.position) <= 5) {
          radars[radarExist].colShape = mp.colshapes.newSphere(newPos.x, newPos.y, newPos.z, 5);
@@ -177,8 +166,6 @@
  });
 
  mp.events.addCommand('checkradar', (player, args, name) => {
-     const distance = 1.45;
-     const position = player.position;
 
      let radarExist = findRadar(name)
 
@@ -187,11 +174,6 @@
          return
      }
 
-     const newPos = new mp.Vector3(
-         position.x + Math.sin(-player.heading * Math.PI / 180) * distance,
-         position.y + Math.cos(-player.heading * Math.PI / 180) * distance,
-         position.z - 0.94
-     );
      player.notify(`Checking the ${name} radar...`);
      // Outputs the list of vehicles that passed the radar and the speed
      if (calcDistanceBetweenTwoVectors(radars[radarExist].object.position, player.position) <= 5) {
@@ -202,13 +184,11 @@
          player.notify('there is no ~r~radar ~w~in the area to check');
      }
 
-     //Anim
-
      radarAnim(player);
  });
 
- mp.events.addCommand('radars', (player, radars) => {
+ //  mp.events.addCommand('radars', (player, radars) => {
 
 
-     player.notify(`There are currently ${radars.length()} radars active at the moment`)
- });
+ //      player.notify(`There are currently ${radars.length()} radars active at the moment`)
+ //  });
