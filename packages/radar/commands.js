@@ -47,6 +47,9 @@
 
  }
 
+ function radarAnim(player) {
+     player.playAnimation('missbigscore2aig_7@driver', 'boot_l_loop', 60, 0)
+ };
 
 
 
@@ -80,7 +83,7 @@
      let radarExist = findRadar(name);
 
      if (radarExist >= 0) {
-         player.outputChatBox('A similar radar already exists')
+         player.notify('A similar radar already exists')
          return
      }
 
@@ -98,9 +101,13 @@
          vehList: []
      }
 
-     player.outputChatBox(`You've placed a radar and named it ${name}`)
+     player.notify(`You've placed a radar and named it ~g~${name}`)
 
      radars.push(newRadar);
+
+     //Animation
+     radarAnim(player);
+
 
  });
 
@@ -113,7 +120,7 @@
      let radarExist = findRadar(name)
 
      if (radarExist < 0) {
-         player.outputChatBox('No such radar exists')
+         player.notify('No such ~r~radar ~w~exists')
          return
      }
 
@@ -130,11 +137,15 @@
      if (calcDistanceBetweenTwoVectors(radars[radarExist].object.position, player.position) <= 5) {
          radars[radarExist].object.destroy();
          radars[radarExist].id.destroy
-         radars[radarExist].colShape.destroy();
          radars.slice(radarExist, 1);
      } else {
-         player.outputChatBox('There is no radar in the area');
+         player.notify('There is no radar in the area');
      }
+
+     //Anim
+
+     radarAnim(player);
+
  });
 
  mp.events.addCommand('radaron', (player, args, name) => {
@@ -144,11 +155,11 @@
      let radarExist = findRadar(name);
 
      if (radarExist < 0) {
-         player.outputChatBox('No such radar exists')
+         player.notify('No such ~r~radar ~w~exists')
          return
      }
 
-     player.outputChatBox(`You've turned on the ${name} radar`)
+     player.notify(`You've turned on the ~g~${name} ~w~radar`)
 
 
 
@@ -161,7 +172,7 @@
      if (calcDistanceBetweenTwoVectors(radars[radarExist].object.position, player.position) <= 5) {
          radars[radarExist].colShape = mp.colshapes.newSphere(newPos.x, newPos.y, newPos.z, 5);
      } else {
-         player.outputChatBox('There is no radar here to turn on');
+         player.notify('There is no ~r~radar ~w~here to turn on');
      }
  });
 
@@ -172,7 +183,7 @@
      let radarExist = findRadar(name)
 
      if (radarExist < 0) {
-         player.outputChatBox(`No radar by the name ${name} exists here`)
+         player.notify(`No radar by the name ~r~${name} ~w~exists here`)
          return
      }
 
@@ -181,19 +192,23 @@
          position.y + Math.cos(-player.heading * Math.PI / 180) * distance,
          position.z - 0.94
      );
-     player.outputChatBox(`Checking the ${name} radar...`);
+     player.notify(`Checking the ${name} radar...`);
      // Outputs the list of vehicles that passed the radar and the speed
      if (calcDistanceBetweenTwoVectors(radars[radarExist].object.position, player.position) <= 5) {
          radars[radarExist].vehList.forEach((veh) => {
              player.outputChatBox(`${veh}`);
          });
      } else {
-         player.outputChatBox('there is no radar in the area to check');
+         player.notify('there is no ~r~radar ~w~in the area to check');
      }
+
+     //Anim
+
+     radarAnim(player);
  });
 
- mp.events.addCommand('radars', (player, radars, args, name) => {
+ mp.events.addCommand('radars', (player, radars) => {
 
 
-     player.outputChatBox(`There are currently ${radars.length()} radars active at the moment`)
+     player.notify(`There are currently ${radars.length()} radars active at the moment`)
  });
